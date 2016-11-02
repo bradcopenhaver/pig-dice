@@ -1,9 +1,18 @@
+var type = 0;
+var players=0;
+var player1 = new Player("Player 1");
+var player2 = new Player("Player 2");
+var currentPlayer = player1;
+
+var turnTotal = 0;
+
 function Player(name){
   this.bank = 0;
   this.name = name;
 }
 Player.prototype.addToBank = function(total) {
   this.bank += total;
+  turnTotal = 0;
 }
 Player.prototype.addName = function(name) {
   this.name = name;
@@ -15,19 +24,18 @@ var roll = function(dice) {
   return die;
 }
 
-var switchPlayer = function() {
+var switchPlayer = function(players) {
+  debugger;
+
   if (currentPlayer === player1) {
     currentPlayer = player2;
   } else {
     currentPlayer = player1;
   }
+  if (players === "1" && currentPlayer === player2) {
+    computer(type);
+  }
 }
-
-var player1 = new Player("Player 1");
-var player2 = new Player("Player 2");
-var currentPlayer = player1;
-
-var turnTotal = 0;
 
 var checkDie = function(rollResult) {
   var die1 = rollResult[0];
@@ -36,23 +44,25 @@ var checkDie = function(rollResult) {
     if (die1 === 1 && die2 === 1){
       currentPlayer.bank=0;
       turnTotal = 0;
-      switchPlayer();
+      switchPlayer(players);
       activePlayer();
       updateBank();
     } else if (die1 === 1 || die2 === 1){
       turnTotal = 0;
-      switchPlayer();
+      switchPlayer(players);
       activePlayer();
     } else  {
       turnTotal += (die1 + die2);
+      return 1;
     }
   } else {
     if (die1 === 1) {
     turnTotal = 0;
-    switchPlayer();
+    switchPlayer(players);
     activePlayer();
   } else {
     turnTotal += die1;
+    return 1;
     }
   }
 }
@@ -70,7 +80,24 @@ var win = function(finalTurnTotal) {
     return true;
   }
 }
+var computer = function(type) {
+  debugger;
+  var rollResult = roll(type);
+  var firstRoll = checkDie(rollResult);
 
+  if (firstRoll === 1){
+    rollResult = roll(type);
+    firstRoll = checkDie(rollResult);
+  }
+  if (firstRoll === 1){
+
+    currentPlayer.addToBank(turnTotal);
+    switchPlayer(players);
+    activePlayer();
+  }
+  updateBank();
+
+}
 /// UI
 
 var activePlayer = function() {
@@ -97,20 +124,17 @@ $(document).ready(function(){
     $("#winner").hide();
     $("#p1NameOutput").text("Player 1");
     $("#p2NameOutput").text("Player 2");
+    type = $("#gameType").val();
+    players = $("#playerCount").val();
     activePlayer();
   });
 
   $("#rollButton").click(function() {
-
-    var type = $("#gameType").val();
     var rollResult = roll(type);
     for (var i=0; i<type; i++) {
       var output1 = "&#x268" + (rollResult[i]-1) + ";";
       $(".displayDice"+(i+1)).html(output1);
     }
-
-    // var output2 = "&#x268" + (rollResult[1]-1) + ";";
-    // $(".displayDice2").html(output2);
     checkDie(rollResult);
     $("#turnTotal").text(turnTotal);
     $("#currentPlayer").text(currentPlayer.name);
@@ -128,9 +152,8 @@ $(document).ready(function(){
 
   $("#bankButton").click(function() {
     currentPlayer.addToBank(turnTotal);
-    turnTotal = 0;
     updateBank();
-    switchPlayer();
+    switchPlayer(players);
     activePlayer();
     $("#rollOutput").text("");
     $("#turnTotal").text("");
