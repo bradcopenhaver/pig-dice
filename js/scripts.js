@@ -32,9 +32,14 @@ var checkDie = function(rollResult) {
   }
 }
 
-var win = function(turnTotal) {
-  if (currentPlayer.bank + turnTotal >= 15) {
+
+var win = function(finalTurnTotal) {
+  if (currentPlayer.bank + finalTurnTotal >= 7) {
+    turnTotal = 0;
+    player1.bank = 0;
+    player2.bank = 0;
     return currentPlayer.name + " Wins!";
+    currentPlayer = player1;
   }
 }
 
