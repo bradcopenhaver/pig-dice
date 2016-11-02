@@ -12,16 +12,32 @@
 
   <body>
     <div class="container">
-      <h1>Pig Dice!</h1>
-      <button id="rollButton">Roll the pigs!</button>
-      <button id="bankButton">Bank my points!</button>
-      <h4>Dice roll:<span id="rollOutput"></span></h4>
-      <h4>Turn total:<span id="turnTotal"></span></h4>
-      <h4>Player 1 Bank total:<span id="p1BankTotal"></span></h4>
-      <h4>Player 2 Bank total:<span id="p2BankTotal"></span></h4>
-      <h4>Current Player:<span id="currentPlayer"></span></h4>
-
-      <div id="winner">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>Pig Dice!</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="p1Name">Enter name for Player 1:</label>
+            <input id="p1Name" type="text" class="form-control">
+            <button id="p1NameSubmit">Submit</button>
+          </div>
+          <h4><span id="p1NameOutput">Player 1</span>'s Bank total:<span id="p1BankTotal"></span></h4>
+        </div>
+        <div class="col-md-4">
+          <h4>Dice roll:<span id="rollOutput"></span></h4>
+          <h4>Turn total:<span id="turnTotal"></span></h4>
+          <h4>Current Player:<span id="currentPlayer"></span></h4>
+          <button id="rollButton">Roll the pigs!</button>
+          <button id="bankButton">Bank my points!</button>
+          <div id="winner">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <h4>Player 2 Bank total:<span id="p2BankTotal"></span></h4>
+        </div>
       </div>
     </div>
   </body>

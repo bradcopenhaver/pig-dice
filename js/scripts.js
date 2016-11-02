@@ -2,7 +2,12 @@ function Player(name){
   this.bank = 0;
   this.name = name;
 }
-
+Player.prototype.addToBank = function(total) {
+  this.bank += total;
+}
+Player.prototype.addName = function(name) {
+  this.name = name;
+}
 var roll = function() {
   var die = Math.floor((Math.random()*6)+1);
   return die;
@@ -32,17 +37,28 @@ var checkDie = function(rollResult) {
   }
 }
 
+var newGame = function() {
+  turnTotal = 0;
+  player1.bank = 0;
+  player2.bank = 0;
+  currentPlayer= player1;
+  updateBank();
+}
 
 var win = function(finalTurnTotal) {
-  if (currentPlayer.bank + finalTurnTotal >= 7) {
-    turnTotal = 0;
-    player1.bank = 0;
-    player2.bank = 0;
-    return currentPlayer.name + " Wins!";
-    currentPlayer = player1;
+  if (currentPlayer.bank + finalTurnTotal >= 15) {
+    var winner = currentPlayer.name;
+    newGame();
+    return winner + " Wins!";
   }
 }
 
+
+
+var updateBank = function() {
+  $("#p1BankTotal").text(player1.bank);
+  $("#p2BankTotal").text(player2.bank);
+}
 
 $(document).ready(function(){
 
@@ -57,13 +73,16 @@ $(document).ready(function(){
   });
 
   $("#bankButton").click(function() {
-    currentPlayer.bank += turnTotal;
+    currentPlayer.addToBank(turnTotal);
     turnTotal = 0;
-    $("#p1BankTotal").text(player1.bank);
-    $("#p2BankTotal").text(player2.bank);
+    updateBank();
     switchPlayer();
     $("#currentPlayer").text(currentPlayer.name);
   });
 
-
+  $("#p1NameSubmit").click(function(){
+    var name = $("#p1Name").val();
+    player1.addName(name);
+    $("#p1NameOutput").text(player1.name);
+  })
 });
