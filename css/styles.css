@@ -30,13 +30,20 @@
   margin-top: 20px;
 }
 
-#gameType {
+#gameType, #playerCount {
   width: 166.016px;
   margin-left: auto;
   margin-right: auto;
   margin-top: 15px;
 }
 
+#twoDice {
+  display: none;
+}
+
+h1 {
+  font-size: 70px;
+}
 
 body {
   background-image: url(../img/pig.jpg);

@@ -117,6 +117,18 @@ var updateBank = function() {
 
 $(document).ready(function(){
 
+  $("#gameType").change(function() {
+    var diceNumber = $("#gameType").val();
+    if (diceNumber === "1") {
+      $("#twoDice").hide();
+      $("#oneDie").show();
+    } else {
+      $("#twoDice").show();
+      $("#oneDie").hide();
+    }
+
+  });
+
   $("#startGame").click(function() {
     newGame();
     $("#gameStart").hide();
