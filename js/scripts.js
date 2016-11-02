@@ -1,8 +1,24 @@
+function Player(name){
+  this.name = name
+  this.bank = 0;
+}
 
 var roll = function() {
   var die = Math.floor((Math.random()*6)+1);
   return die;
 }
+
+var switchPlayer = function() {
+  if (currentPlayer === player1) {
+    currentPlayer = player2;
+  } else {
+    currentPlayer = player1;
+  }
+}
+
+var player1 = new Player();
+var player2 = new Player();
+var currentPlayer = player1;
 
 var turnTotal = 0;
 var bank = 0;
@@ -10,6 +26,7 @@ var bank = 0;
 var checkDie = function(rollResult) {
   if (rollResult === 1) {
     turnTotal = 0;
+    switchPlayer();
   } else {
     turnTotal += rollResult;
   }
@@ -24,12 +41,16 @@ $(document).ready(function(){
     $("#rollOutput").text(rollResult);
     checkDie(rollResult);
     $("#turnTotal").text(turnTotal);
+    $("#currentPlayer").text(currentPlayer);
   });
 
   $("#bankButton").click(function() {
-    bank += turnTotal;
+    currentPlayer.bank += turnTotal;
     turnTotal = 0;
-    $("#bankTotal").text(bank);
+    $("#p1BankTotal").text(player1.bank);
+    $("#p2BankTotal").text(player2.bank);
+    switchPlayer();
+    $("#currentPlayer").text(currentPlayer);
   });
 
 
