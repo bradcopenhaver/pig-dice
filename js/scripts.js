@@ -4,13 +4,17 @@ var roll = function() {
   return die;
 }
 
+var turnTotal = 0;
 
 
 $(document).ready(function(){
 
 
   $("#roll").click(function() {
-    $("#rollOutput").text(roll());
+    var rollResult = roll();
+    $("#rollOutput").text(rollResult);
+    turnTotal += rollResult;
+    $("#turnTotal").text(turnTotal);
   });
 
   $("#bank").click(function() {
