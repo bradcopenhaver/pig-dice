@@ -32,6 +32,12 @@ var checkDie = function(rollResult) {
   }
 }
 
+var win = function(turnTotal) {
+  if (currentPlayer.bank + turnTotal >= 15) {
+    return currentPlayer.name + " Wins!";
+  }
+}
+
 
 $(document).ready(function(){
 
@@ -42,6 +48,7 @@ $(document).ready(function(){
     checkDie(rollResult);
     $("#turnTotal").text(turnTotal);
     $("#currentPlayer").text(currentPlayer.name);
+    $("#winner").text(win(turnTotal));
   });
 
   $("#bankButton").click(function() {
