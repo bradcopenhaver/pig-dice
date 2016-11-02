@@ -1,0 +1,19 @@
+#rollButton {
+  display: none;
+}
+
+#bankButton {
+  display: none;
+}
+
+.nameEntry1, .nameEntry2 {
+  display: none;
+}
+
+#nextGame {
+  display: none;
+}
+
+.currentPlayer {
+  border: 5px solid red;
+}

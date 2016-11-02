@@ -32,6 +32,7 @@ var checkDie = function(rollResult) {
   if (rollResult === 1) {
     turnTotal = 0;
     switchPlayer();
+    activePlayer();
   } else {
     turnTotal += rollResult;
   }
@@ -41,19 +42,27 @@ var newGame = function() {
   turnTotal = 0;
   player1.bank = 0;
   player2.bank = 0;
-  currentPlayer= player1;
+  currentPlayer = player1;
   updateBank();
 }
 
 var win = function(finalTurnTotal) {
   if (currentPlayer.bank + finalTurnTotal >= 15) {
-    var winner = currentPlayer.name;
-    newGame();
-    return winner + " Wins!";
+    return true;
   }
 }
 
+/// UI
 
+var activePlayer = function() {
+  if (currentPlayer === player1) {
+    $("#player1Working").addClass("currentPlayer");
+    $("#player2Working").removeClass("currentPlayer");
+  } else {
+    $("#player2Working").addClass("currentPlayer");
+    $("#player1Working").removeClass("currentPlayer");
+  }
+}
 
 var updateBank = function() {
   $("#p1BankTotal").text(player1.bank);
@@ -62,6 +71,14 @@ var updateBank = function() {
 
 $(document).ready(function(){
 
+  $("#startGame").click(function() {
+    $("#rollButton").show();
+    $("#bankButton").show();
+    $(".nameEntry1").show();
+    $(".nameEntry2").show();
+    $("#startGame").hide();
+    activePlayer();
+  });
 
   $("#rollButton").click(function() {
     var rollResult = roll();
@@ -69,7 +86,28 @@ $(document).ready(function(){
     checkDie(rollResult);
     $("#turnTotal").text(turnTotal);
     $("#currentPlayer").text(currentPlayer.name);
-    $("#winner").text(win(turnTotal));
+    if (win(turnTotal)) {
+      $("#winner").show();
+      $("#winner").text(currentPlayer.name + " Wins!");
+      $("#nextGame").show();
+      $("#rollButton").hide();
+      $("#bankButton").hide();
+      $("#rollOutput").text("");
+      $("#turnTotal").text("");
+      $("#currentPlayer").text("");
+    }
+  });
+
+  $("#nextGame").click(function(){
+    newGame();
+    $("#nextGame").hide();
+    $("#rollButton").show();
+    $("#bankButton").show();
+    $(".nameEntry1").show();
+    $(".nameEntry2").show();
+    $("#winner").hide();
+    $("#p1NameOutput").text("Player 1");
+    $("#p2NameOutput").text("Player 2");
   });
 
   $("#bankButton").click(function() {
@@ -77,6 +115,9 @@ $(document).ready(function(){
     turnTotal = 0;
     updateBank();
     switchPlayer();
+    activePlayer();
+    $("#rollOutput").text("");
+    $("#turnTotal").text("");
     $("#currentPlayer").text(currentPlayer.name);
   });
 
@@ -84,5 +125,13 @@ $(document).ready(function(){
     var name = $("#p1Name").val();
     player1.addName(name);
     $("#p1NameOutput").text(player1.name);
-  })
+    $(".nameEntry1").hide();
+  });
+
+  $("#p2NameSubmit").click(function(){
+    var name = $("#p2Name").val();
+    player2.addName(name);
+    $("#p2NameOutput").text(player2.name);
+    $(".nameEntry2").hide();
+  });
 });
