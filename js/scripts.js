@@ -38,6 +38,7 @@ var checkDie = function(rollResult) {
       turnTotal = 0;
       switchPlayer();
       activePlayer();
+      updateBank();
     } else if (die1 === 1 || die2 === 1){
       turnTotal = 0;
       switchPlayer();
@@ -65,7 +66,7 @@ var newGame = function() {
 }
 
 var win = function(finalTurnTotal) {
-  if (currentPlayer.bank + finalTurnTotal >= 10) {
+  if (currentPlayer.bank + finalTurnTotal >= 100) {
     return true;
   }
 }
