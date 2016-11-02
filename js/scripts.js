@@ -6,6 +6,14 @@ var roll = function() {
 
 var turnTotal = 0;
 
+var checkDie = function(rollResult) {
+  if (rollResult === 1) {
+    turnTotal = 0;
+  } else {
+    turnTotal += rollResult;
+  }
+}
+
 
 $(document).ready(function(){
 
@@ -13,7 +21,7 @@ $(document).ready(function(){
   $("#roll").click(function() {
     var rollResult = roll();
     $("#rollOutput").text(rollResult);
-    turnTotal += rollResult;
+    checkDie(rollResult);
     $("#turnTotal").text(turnTotal);
   });
 
