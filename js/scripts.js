@@ -1,6 +1,6 @@
 function Player(name){
-  this.name = name
   this.bank = 0;
+  this.name = name;
 }
 
 var roll = function() {
@@ -16,8 +16,8 @@ var switchPlayer = function() {
   }
 }
 
-var player1 = new Player();
-var player2 = new Player();
+var player1 = new Player("Player 1");
+var player2 = new Player("Player 2");
 var currentPlayer = player1;
 
 var turnTotal = 0;
@@ -41,7 +41,7 @@ $(document).ready(function(){
     $("#rollOutput").text(rollResult);
     checkDie(rollResult);
     $("#turnTotal").text(turnTotal);
-    $("#currentPlayer").text(currentPlayer);
+    $("#currentPlayer").text(currentPlayer.name);
   });
 
   $("#bankButton").click(function() {
@@ -50,7 +50,7 @@ $(document).ready(function(){
     $("#p1BankTotal").text(player1.bank);
     $("#p2BankTotal").text(player2.bank);
     switchPlayer();
-    $("#currentPlayer").text(currentPlayer);
+    $("#currentPlayer").text(currentPlayer.name);
   });
 
 
