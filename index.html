@@ -13,11 +13,11 @@
   <body>
     <div class="container">
       <div class="row">
-        <div class="col-md-12">
-          <h1>Pig Dice!</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt</p>
-          <button id="startGame">Begin a new game!</button>
-          <button id="nextGame">Begin a new game!</button>
+        <div class="col-md-12" id="header">
+          <h1><img src="img/dice.png" alt="A picture of dice">Pig Dice!<img src="img/dice.png" alt="A picture of dice"></h1>
+          <p>Each turn, a player repeatedly rolls a die until either a 1 is rolled or the player decides to "bank". If the player rolls a 1, they score nothing and it becomes the next player's turn. If the player rolls any other number, it is added to their turn total and the player's turn continues. If a player chooses to "bank", their turn total is added to their score, and it becomes the next player's turn. <br>The first player to score 100 or more points wins.</p>
+          <button id="startGame" class="btn btn-lg">Begin a new game!</button>
+          <button id="nextGame" class="btn btn-lg">Begin a new game!</button>
         </div>
       </div>
       <div class="row">
@@ -25,24 +25,24 @@
           <div class="form-group nameEntry1">
             <label for="p1Name">Enter name for Player 1:</label>
             <input id="p1Name" type="text" class="form-control">
-            <button id="p1NameSubmit">Submit</button>
+            <button id="p1NameSubmit" class="btn btn-lg">Submit</button>
           </div>
           <h4><span id="p1NameOutput">Player 1</span>'s Bank total:<span id="p1BankTotal"></span></h4>
         </div>
-        <div class="col-md-4">
-          <h4>Dice roll:<span id="rollOutput"></span></h4>
+        <div class="col-md-4" id="gameScore">
+          <!--<h4>Dice roll:<span id="rollOutput"></span></h4>-->
+          <div class="displayDice"></div>
           <h4>Turn total:<span id="turnTotal"></span></h4>
           <h4>Current Player:<span id="currentPlayer"></span></h4>
-          <button id="rollButton">Roll the pigs!</button>
-          <button id="bankButton">Bank my points!</button>
-          <div id="winner">
-          </div>
+          <button id="rollButton" class="btn btn-lg">Roll the pigs!</button>
+          <button id="bankButton" class="btn btn-lg">Bank my points!</button>
+          <h3 id="winner"></h3>
         </div>
         <div class="col-md-4" id="player2Working">
           <div class="form-group nameEntry2">
             <label for="p2Name">Enter name for Player 2:</label>
             <input id="p2Name" type="text" class="form-control">
-            <button id="p2NameSubmit">Submit</button>
+            <button id="p2NameSubmit" class="btn btn-lg">Submit</button>
           </div>
           <h4><span id="p2NameOutput">Player 2</span>'s Bank total:<span id="p2BankTotal"></span></h4>
         </div>

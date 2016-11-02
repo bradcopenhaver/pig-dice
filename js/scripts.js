@@ -47,7 +47,7 @@ var newGame = function() {
 }
 
 var win = function(finalTurnTotal) {
-  if (currentPlayer.bank + finalTurnTotal >= 15) {
+  if (currentPlayer.bank + finalTurnTotal >= 10) {
     return true;
   }
 }
@@ -80,12 +80,14 @@ $(document).ready(function(){
   $("#rollButton").click(function() {
     var rollResult = roll();
     $("#rollOutput").text(rollResult);
+    var output = "&#x268" + (rollResult-1) + ";";
+     $(".displayDice").html(output);
     checkDie(rollResult);
     $("#turnTotal").text(turnTotal);
     $("#currentPlayer").text(currentPlayer.name);
     if (win(turnTotal)) {
       $("#winner").show();
-      $("#winner").text(currentPlayer.name + " Wins! Bank: " + currentPlayer.bank + " plus " + turnTotal);
+      $("#winner").text(currentPlayer.name + " Wins! Bank: " + currentPlayer.bank + " Current roll:" + turnTotal);
       $("#nextGame").show();
       $("#rollButton").hide();
       $("#bankButton").hide();

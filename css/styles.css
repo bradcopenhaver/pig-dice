@@ -15,5 +15,43 @@
 }
 
 .currentPlayer {
-  border: 5px solid red;
+  background-color: rgba(0, 211, 32, .3);
+  border: 5px ridge darkgreen;
+}
+
+.displayDice {
+  font-size: 200px;
+}
+
+#gameScore {
+  border: 5px ridge #F72DBD;
+  background-color: pink;
+  margin-top: 20px;
+}
+
+body {
+  background-image: url(../img/pig.jpg);
+  text-align: center;
+}
+
+#header {
+  border: 5px ridge #F72DBD;
+  background-color: pink;
+  text-align: center;
+}
+
+img {
+  width: 20%;
+}
+
+.btn {
+  margin: 15px;
+  padding: 5px;
+  background-color: #563A3A;
+  color: white;
+}
+
+#player1Working, #player2Working {
+  margin-top: 20px;
+  padding: 15px;
 }
