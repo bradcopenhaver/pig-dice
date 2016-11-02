@@ -19,8 +19,9 @@
   border: 5px ridge darkgreen;
 }
 
-.displayDice {
+.displayDice1, .displayDice2 {
   font-size: 200px;
+  line-height: 130px;
 }
 
 #gameScore {
@@ -54,4 +55,8 @@ img {
 #player1Working, #player2Working {
   margin-top: 20px;
   padding: 15px;
+}
+
+p {
+  margin: 0 25px 0 25px;
 }

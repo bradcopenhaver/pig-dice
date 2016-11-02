@@ -8,8 +8,10 @@ Player.prototype.addToBank = function(total) {
 Player.prototype.addName = function(name) {
   this.name = name;
 }
-var roll = function() {
-  var die = Math.floor((Math.random()*6)+1);
+var roll = function(dice) {
+  var die=[];
+  for(var i=0; i<dice; i++)
+  die.push(Math.floor((Math.random()*6)+1));
   return die;
 }
 
@@ -26,15 +28,31 @@ var player2 = new Player("Player 2");
 var currentPlayer = player1;
 
 var turnTotal = 0;
-var bank = 0;
 
 var checkDie = function(rollResult) {
-  if (rollResult === 1) {
+  var die1 = rollResult[0];
+  var die2 = rollResult[1];
+  if (die2) {
+    if (die1 === 1 && die2 === 1){
+      currentPlayer.bank=0;
+      turnTotal = 0;
+      switchPlayer();
+      activePlayer();
+    } else if (die1 === 1 || die2 === 1){
+      turnTotal = 0;
+      switchPlayer();
+      activePlayer();
+    } else  {
+      turnTotal += (die1 + die2);
+    }
+  } else {
+    if (die1 === 1) {
     turnTotal = 0;
     switchPlayer();
     activePlayer();
   } else {
-    turnTotal += rollResult;
+    turnTotal += die1;
+    }
   }
 }
 
@@ -72,38 +90,39 @@ var updateBank = function() {
 $(document).ready(function(){
 
   $("#startGame").click(function() {
+    newGame();
+    $("#gameStart").hide();
     $(".nameEntry1").show();
-    $("#startGame").hide();
+    $("#winner").hide();
+    $("#p1NameOutput").text("Player 1");
+    $("#p2NameOutput").text("Player 2");
     activePlayer();
   });
 
   $("#rollButton").click(function() {
-    var rollResult = roll();
-    $("#rollOutput").text(rollResult);
-    var output = "&#x268" + (rollResult-1) + ";";
-     $(".displayDice").html(output);
+
+    var type = $("#gameType").val();
+    var rollResult = roll(type);
+    for (var i=0; i<type; i++) {
+      var output1 = "&#x268" + (rollResult[i]-1) + ";";
+      $(".displayDice"+(i+1)).html(output1);
+    }
+
+    // var output2 = "&#x268" + (rollResult[1]-1) + ";";
+    // $(".displayDice2").html(output2);
     checkDie(rollResult);
     $("#turnTotal").text(turnTotal);
     $("#currentPlayer").text(currentPlayer.name);
     if (win(turnTotal)) {
       $("#winner").show();
       $("#winner").text(currentPlayer.name + " Wins! Bank: " + currentPlayer.bank + " Current roll:" + turnTotal);
-      $("#nextGame").show();
+      $("#startGame").show();
       $("#rollButton").hide();
       $("#bankButton").hide();
       $("#rollOutput").text("");
       $("#turnTotal").text("");
       $("#currentPlayer").text("");
     }
-  });
-
-  $("#nextGame").click(function(){
-    newGame();
-    $("#nextGame").hide();
-    $(".nameEntry1").show();
-    $("#winner").hide();
-    $("#p1NameOutput").text("Player 1");
-    $("#p2NameOutput").text("Player 2");
   });
 
   $("#bankButton").click(function() {
