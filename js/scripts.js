@@ -72,10 +72,7 @@ var updateBank = function() {
 $(document).ready(function(){
 
   $("#startGame").click(function() {
-    $("#rollButton").show();
-    $("#bankButton").show();
     $(".nameEntry1").show();
-    $(".nameEntry2").show();
     $("#startGame").hide();
     activePlayer();
   });
@@ -88,7 +85,7 @@ $(document).ready(function(){
     $("#currentPlayer").text(currentPlayer.name);
     if (win(turnTotal)) {
       $("#winner").show();
-      $("#winner").text(currentPlayer.name + " Wins!");
+      $("#winner").text(currentPlayer.name + " Wins! Bank: " + currentPlayer.bank + " plus " + turnTotal);
       $("#nextGame").show();
       $("#rollButton").hide();
       $("#bankButton").hide();
@@ -101,10 +98,7 @@ $(document).ready(function(){
   $("#nextGame").click(function(){
     newGame();
     $("#nextGame").hide();
-    $("#rollButton").show();
-    $("#bankButton").show();
     $(".nameEntry1").show();
-    $(".nameEntry2").show();
     $("#winner").hide();
     $("#p1NameOutput").text("Player 1");
     $("#p2NameOutput").text("Player 2");
@@ -126,6 +120,9 @@ $(document).ready(function(){
     player1.addName(name);
     $("#p1NameOutput").text(player1.name);
     $(".nameEntry1").hide();
+    $(".nameEntry2").show();
+    $("#player2Working").addClass("currentPlayer");
+    $("#player1Working").removeClass("currentPlayer");
   });
 
   $("#p2NameSubmit").click(function(){
@@ -133,5 +130,9 @@ $(document).ready(function(){
     player2.addName(name);
     $("#p2NameOutput").text(player2.name);
     $(".nameEntry2").hide();
+    $("#player1Working").addClass("currentPlayer");
+    $("#player2Working").removeClass("currentPlayer");
+    $("#rollButton").show();
+    $("#bankButton").show();
   });
 });
