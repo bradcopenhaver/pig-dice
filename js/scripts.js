@@ -5,6 +5,7 @@ var roll = function() {
 }
 
 var turnTotal = 0;
+var bank = 0;
 
 var checkDie = function(rollResult) {
   if (rollResult === 1) {
@@ -18,15 +19,17 @@ var checkDie = function(rollResult) {
 $(document).ready(function(){
 
 
-  $("#roll").click(function() {
+  $("#rollButton").click(function() {
     var rollResult = roll();
     $("#rollOutput").text(rollResult);
     checkDie(rollResult);
     $("#turnTotal").text(turnTotal);
   });
 
-  $("#bank").click(function() {
-
+  $("#bankButton").click(function() {
+    bank += turnTotal;
+    turnTotal = 0;
+    $("#bankTotal").text(bank);
   });
 
 
