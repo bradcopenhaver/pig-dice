@@ -5,7 +5,7 @@ var player2 = new Player("Player 2");
 var currentPlayer = player1;
 
 var turnTotal = 0;
-
+var timeoutID=0;
 function Player(name){
   this.bank = 0;
   this.name = name;
@@ -33,7 +33,7 @@ var switchPlayer = function(players) {
     currentPlayer = player1;
   }
   if (players === "1" && currentPlayer === player2) {
-    computer(type);
+    window.setTimeout(computer, 2000, type);
   }
 }
 
@@ -45,12 +45,12 @@ var checkDie = function(rollResult) {
       currentPlayer.bank=0;
       turnTotal = 0;
       switchPlayer(players);
-      activePlayer();
+      activePlayerUI();
       updateBank();
     } else if (die1 === 1 || die2 === 1){
       turnTotal = 0;
       switchPlayer(players);
-      activePlayer();
+      activePlayerUI();
     } else  {
       turnTotal += (die1 + die2);
       return 1;
@@ -59,7 +59,7 @@ var checkDie = function(rollResult) {
     if (die1 === 1) {
     turnTotal = 0;
     switchPlayer(players);
-    activePlayer();
+    activePlayerUI();
   } else {
     turnTotal += die1;
     return 1;
@@ -81,26 +81,27 @@ var win = function(finalTurnTotal) {
   }
 }
 var computer = function(type) {
-  debugger;
   var rollResult = roll(type);
+  alert("The computer rolled " + rollResult);
   var firstRoll = checkDie(rollResult);
 
   if (firstRoll === 1){
     rollResult = roll(type);
     firstRoll = checkDie(rollResult);
+    alert("The computer rolled " + rollResult);
   }
   if (firstRoll === 1){
 
     currentPlayer.addToBank(turnTotal);
     switchPlayer(players);
-    activePlayer();
+    activePlayerUI();
   }
   updateBank();
 
 }
 /// UI
 
-var activePlayer = function() {
+var activePlayerUI = function() {
   if (currentPlayer === player1) {
     $("#player1Working").addClass("currentPlayer");
     $("#player2Working").removeClass("currentPlayer");
@@ -108,6 +109,7 @@ var activePlayer = function() {
     $("#player2Working").addClass("currentPlayer");
     $("#player1Working").removeClass("currentPlayer");
   }
+  $("#currentPlayer").text(currentPlayer.name);
 }
 
 var updateBank = function() {
@@ -138,7 +140,7 @@ $(document).ready(function(){
     $("#p2NameOutput").text("Player 2");
     type = $("#gameType").val();
     players = $("#playerCount").val();
-    activePlayer();
+    activePlayerUI();
   });
 
   $("#rollButton").click(function() {
@@ -166,7 +168,7 @@ $(document).ready(function(){
     currentPlayer.addToBank(turnTotal);
     updateBank();
     switchPlayer(players);
-    activePlayer();
+    activePlayerUI();
     $("#rollOutput").text("");
     $("#turnTotal").text("");
     $("#currentPlayer").text(currentPlayer.name);
