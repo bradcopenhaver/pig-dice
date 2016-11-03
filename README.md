@@ -38,7 +38,7 @@ Source code available at _repository_
 
 ## Known Bugs
 
-First "bank" click not working.
+win state does not trigger when computer wins
 
 turnTotal does not display on second roll on computer's turn.
 

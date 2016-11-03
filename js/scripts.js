@@ -49,7 +49,9 @@ Game.prototype.rollDice = function() {
       window.setTimeout(activePlayerUI, 1000);
     } else  {
       this.turnTotal += (this.currentRoll[0] + this.currentRoll[1]);
-      return 1;
+      if (this.currentPlayer.bank + this.turnTotal >= 10) {
+        win();
+      } return 1;
     }
   } else {
     if (this.currentRoll[0] === 1) {
@@ -58,7 +60,7 @@ Game.prototype.rollDice = function() {
     window.setTimeout(activePlayerUI, 1000);
     } else {
       this.turnTotal += this.currentRoll[0];
-        if (this.currentPlayer.bank + this.turnTotal >= 100) {
+        if (this.currentPlayer.bank + this.turnTotal >= 10) {
           win();
         } return 1;
       }
@@ -72,7 +74,7 @@ Game.prototype.switchPlayer = function() {
     this.currentPlayer = player1;
   }
   if (this.players === "1" && this.currentPlayer === player2) {
-    window.setTimeout(computer, 2000, type);
+    window.setTimeout(computer, 2000);
   }
 }
 
@@ -135,8 +137,8 @@ var clearFields = function() {
 
 var win = function() {
   $("#winner").show();
-  $("#winner").text(game.currentPlayer.name + " Wins! Bank: " + game.currentPlayer.bank + " Current roll:" + turnTotal);
-  $("#startGame").show();
+  $("#winner").text(game.currentPlayer.name + " Wins! Bank: " + game.currentPlayer.bank + " Current turn:" + game.turnTotal);
+  $("#gameStart").show();
   $("#rollButton").hide();
   $("#bankButton").hide();
   clearFields();
@@ -157,9 +159,11 @@ $(document).ready(function(){
   });
 
   $("#startGame").click(function() {
+    debugger;
     game = new Game();
-    player1 = new Player("Player 1");
-    player2 = new Player("Player 2");
+    player1.bank = 0;
+    player2.bank = 0;
+    console.log(game);
     updateBank();
     $("#gameStart").hide();
     $(".nameEntry1").show();
@@ -179,7 +183,8 @@ $(document).ready(function(){
   });
 
   $("#bankButton").click(function() {
-    game.currentPlayer.addToBank(turnTotal);
+    console.log(game.currentPlayer);
+    game.currentPlayer.addToBank();
     updateBank();
     game.switchPlayer();
     activePlayerUI();
@@ -207,6 +212,7 @@ $(document).ready(function(){
     $("#player2Working").removeClass("currentPlayer");
     $("#rollButton").show();
     $("#bankButton").show();
+    game.currentPlayer = player1;
   });
 
 });
