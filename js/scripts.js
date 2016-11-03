@@ -110,7 +110,7 @@ var slowRoll = function(firstRoll) {
       firstRoll = game.rollDice();
       displayRoll(game.currentRoll);
       updateFields();
-      if (game.turnTotal >= 29) {
+      if (game.turnTotal + player2.bank >= 100) {
         return 1;
       }
     } else if (player1.bank >= 61 || player2.bank >= 61) {
