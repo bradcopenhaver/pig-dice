@@ -45,12 +45,12 @@ var checkDie = function(rollResult) {
       currentPlayer.bank=0;
       turnTotal = 0;
       switchPlayer(players);
-      activePlayerUI();
+      window.setTimeout(activePlayerUI, 1000);
       updateBank();
     } else if (die1 === 1 || die2 === 1){
       turnTotal = 0;
       switchPlayer(players);
-      activePlayerUI();
+      window.setTimeout(activePlayerUI, 1000);
     } else  {
       turnTotal += (die1 + die2);
       return 1;
@@ -59,7 +59,7 @@ var checkDie = function(rollResult) {
     if (die1 === 1) {
     turnTotal = 0;
     switchPlayer(players);
-    activePlayerUI();
+    window.setTimeout(activePlayerUI, 1000);
   } else {
     turnTotal += die1;
     return 1;
@@ -82,21 +82,23 @@ var win = function(finalTurnTotal) {
 }
 var computer = function(type) {
   var rollResult = roll(type);
-  alert("The computer rolled " + rollResult);
+  displayRoll(rollResult);
   var firstRoll = checkDie(rollResult);
+  updateFields();
 
   if (firstRoll === 1){
     rollResult = roll(type);
     firstRoll = checkDie(rollResult);
-    alert("The computer rolled " + rollResult);
+    window.setTimeout(displayRoll, 1000, rollResult);
+    window.setTimeout(updateFields, 1000);
   }
   if (firstRoll === 1){
 
-    currentPlayer.addToBank(turnTotal);
+    window.setTimeout(currentPlayer.addToBank, 1000, turnTotal);
     switchPlayer(players);
-    activePlayerUI();
+    window.setTimeout(activePlayerUI, 3000);
   }
-  updateBank();
+  window.setTimeout(updateBank, 3000);
 
 }
 /// UI
@@ -115,6 +117,26 @@ var activePlayerUI = function() {
 var updateBank = function() {
   $("#p1BankTotal").text(player1.bank);
   $("#p2BankTotal").text(player2.bank);
+}
+
+var displayRoll = function(rollResult) {
+  for (var i=0; i<type; i++) {
+    var output1 = "&#x268" + (rollResult[i]-1) + ";";
+    $(".displayDice"+(i+1)).html(output1);
+  }
+}
+
+var updateFields = function() {
+  $("#p1BankTotal").text(player1.bank);
+  $("#p2BankTotal").text(player2.bank);
+  $("#turnTotal").text(turnTotal);
+  $("#currentPlayer").text(currentPlayer.name);
+}
+
+var clearFields = function() {
+  $("#rollOutput").text("");
+  $("#turnTotal").text("");
+  $("#currentPlayer").text("");
 }
 
 $(document).ready(function(){
@@ -145,22 +167,21 @@ $(document).ready(function(){
 
   $("#rollButton").click(function() {
     var rollResult = roll(type);
-    for (var i=0; i<type; i++) {
-      var output1 = "&#x268" + (rollResult[i]-1) + ";";
-      $(".displayDice"+(i+1)).html(output1);
-    }
+    displayRoll(rollResult);
     checkDie(rollResult);
-    $("#turnTotal").text(turnTotal);
-    $("#currentPlayer").text(currentPlayer.name);
+    updateFields();
+    //$("#turnTotal").text(turnTotal);
+    //$("#currentPlayer").text(currentPlayer.name);
     if (win(turnTotal)) {
       $("#winner").show();
       $("#winner").text(currentPlayer.name + " Wins! Bank: " + currentPlayer.bank + " Current roll:" + turnTotal);
       $("#startGame").show();
       $("#rollButton").hide();
       $("#bankButton").hide();
-      $("#rollOutput").text("");
-      $("#turnTotal").text("");
-      $("#currentPlayer").text("");
+      clearFields();
+      // $("#rollOutput").text("");
+      // $("#turnTotal").text("");
+      // $("#currentPlayer").text("");
     }
   });
 
