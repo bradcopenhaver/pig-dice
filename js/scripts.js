@@ -75,9 +75,11 @@ Game.prototype.switchPlayer = function() {
   }
   if (this.players === "1" && this.currentPlayer === player2) {
     window.setTimeout(computer, 2000);
+    disablePlayButtons();
   }
   if (this.players === "3" && this.currentPlayer === player2) {
     window.setTimeout(superComputer, 2000);
+    disablePlayButtons();
   }
 }
 
@@ -98,56 +100,68 @@ var computer = function() {
     window.setTimeout(activePlayerUI, 3000);
   }
   window.setTimeout(updateBank, 3000);
+  window.setTimeout(enablePlayButtons, 3000);
+}
+
+var slowRoll = function(firstRoll) {
+  // debugger;
+  if (firstRoll === 1) {
+    if (player1.bank >= 71 || player2.bank >= 71) {
+      firstRoll = game.rollDice();
+      displayRoll(game.currentRoll);
+      updateFields();
+      if (game.turnTotal >= 29) {
+        return 1;
+      }
+    } else if (player1.bank >= 61 || player2.bank >= 61) {
+      firstRoll = game.rollDice();
+      displayRoll(game.currentRoll);
+      updateFields();
+      if (game.turnTotal >= 26) {
+        game.currentPlayer.addToBank(game.turnTotal);
+        game.switchPlayer();
+        activePlayerUI();
+        return 1;
+      }
+    } else if (player1.bank >= 51 || player2.bank >= 51) {
+        firstRoll = game.rollDice();
+        displayRoll(game.currentRoll);
+        updateFields();
+        if (game.turnTotal >= 23) {
+          game.currentPlayer.addToBank(game.turnTotal);
+          game.switchPlayer();
+          activePlayerUI();
+          return 1;
+        }
+    } else {
+      firstRoll = game.rollDice();
+      displayRoll(game.currentRoll);
+      updateFields();
+      if (game.turnTotal >= 20) {
+        game.currentPlayer.addToBank(game.turnTotal);
+        game.switchPlayer();
+        activePlayerUI();
+        return 1;
+      }
+    }
+  } else {
+    return 1;
+  }
 }
 
 var superComputer = function() {
   var firstRoll = game.rollDice();
   displayRoll(game.currentRoll);
   updateFields();
-
     for (var i=0; player2.bank + game.turnTotal < 100; i++) {
-      if (firstRoll === 1) {
-        if (player1.bank < 51 && player2.bank < 51) {
-          firstRoll = game.rollDice();
-          window.setTimeout(displayRoll, 1000, game.currentRoll);
-          window.setTimeout(updateFields, 1000);
-          if (game.turnTotal >= 20) {
-            window.setTimeout(game.currentPlayer.addToBank(game.turnTotal), 1000);
-            window.setTimeout(game.switchPlayer(), 1000);
-            window.setTimeout(activePlayerUI, 3000);
-            break;
-          }
-        } else if (player1.bank < 61 && player2.bank < 61) {
-          firstRoll = game.rollDice();
-          window.setTimeout(displayRoll, 1000, game.currentRoll);
-          window.setTimeout(updateFields, 1000);
-          if (game.turnTotal >= 23) {
-            window.setTimeout(game.currentPlayer.addToBank(game.turnTotal), 1000);
-            window.setTimeout(game.switchPlayer(), 1000);
-            window.setTimeout(activePlayerUI, 3000);
-            break;
-          }
-        } else if (player1.bank < 71 && player2.bank < 71) {
-          firstRoll = game.rollDice();
-          window.setTimeout(displayRoll, 1000, game.currentRoll);
-          window.setTimeout(updateFields, 1000);
-          if (game.turnTotal >= 26) {
-            window.setTimeout(game.currentPlayer.addToBank(game.turnTotal), 1000);
-            window.setTimeout(game.switchPlayer(), 1000);
-            window.setTimeout(activePlayerUI, 3000);
-            break;
-          }
-        } else {
-          firstRoll = game.rollDice();
-          window.setTimeout(displayRoll, 1000, game.currentRoll);
-          window.setTimeout(updateFields, 1000);
-        }
-      }else {
+      // debugger;
+      var check = slowRoll(firstRoll);
+      if (check === 1){
         break;
       }
     }
-
-  window.setTimeout(updateBank, 3000);
+  updateBank();
+  enablePlayButtons();
 }
 
 /// UI
@@ -195,6 +209,16 @@ var win = function() {
   $("#rollButton").hide();
   $("#bankButton").hide();
   clearFields();
+}
+
+var disablePlayButtons = function() {
+  $("#rollButton").hide();
+  $("#bankButton").hide();
+}
+
+var enablePlayButtons = function() {
+  $("#rollButton").show();
+  $("#bankButton").show();
 }
 
 $(document).ready(function(){
