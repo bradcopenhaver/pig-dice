@@ -49,7 +49,7 @@ Game.prototype.rollDice = function() {
       window.setTimeout(activePlayerUI, 1000);
     } else  {
       this.turnTotal += (this.currentRoll[0] + this.currentRoll[1]);
-      if (this.currentPlayer.bank + this.turnTotal >= 10) {
+      if (this.currentPlayer.bank + this.turnTotal >= 100) {
         win();
       } return 1;
     }
@@ -60,7 +60,7 @@ Game.prototype.rollDice = function() {
     window.setTimeout(activePlayerUI, 1000);
     } else {
       this.turnTotal += this.currentRoll[0];
-        if (this.currentPlayer.bank + this.turnTotal >= 10) {
+        if (this.currentPlayer.bank + this.turnTotal >= 100) {
           win();
         } return 1;
       }
@@ -75,6 +75,9 @@ Game.prototype.switchPlayer = function() {
   }
   if (this.players === "1" && this.currentPlayer === player2) {
     window.setTimeout(computer, 2000);
+  }
+  if (this.players === "3" && this.currentPlayer === player2) {
+    window.setTimeout(superComputer, 2000);
   }
 }
 
@@ -95,8 +98,58 @@ var computer = function() {
     window.setTimeout(activePlayerUI, 3000);
   }
   window.setTimeout(updateBank, 3000);
-
 }
+
+var superComputer = function() {
+  var firstRoll = game.rollDice();
+  displayRoll(game.currentRoll);
+  updateFields();
+
+    for (var i=0; player2.bank + game.turnTotal < 100; i++) {
+      if (firstRoll === 1) {
+        if (player1.bank < 51 && player2.bank < 51) {
+          firstRoll = game.rollDice();
+          window.setTimeout(displayRoll, 1000, game.currentRoll);
+          window.setTimeout(updateFields, 1000);
+          if (game.turnTotal >= 20) {
+            window.setTimeout(game.currentPlayer.addToBank(game.turnTotal), 1000);
+            window.setTimeout(game.switchPlayer(), 1000);
+            window.setTimeout(activePlayerUI, 3000);
+            break;
+          }
+        } else if (player1.bank < 61 && player2.bank < 61) {
+          firstRoll = game.rollDice();
+          window.setTimeout(displayRoll, 1000, game.currentRoll);
+          window.setTimeout(updateFields, 1000);
+          if (game.turnTotal >= 23) {
+            window.setTimeout(game.currentPlayer.addToBank(game.turnTotal), 1000);
+            window.setTimeout(game.switchPlayer(), 1000);
+            window.setTimeout(activePlayerUI, 3000);
+            break;
+          }
+        } else if (player1.bank < 71 && player2.bank < 71) {
+          firstRoll = game.rollDice();
+          window.setTimeout(displayRoll, 1000, game.currentRoll);
+          window.setTimeout(updateFields, 1000);
+          if (game.turnTotal >= 26) {
+            window.setTimeout(game.currentPlayer.addToBank(game.turnTotal), 1000);
+            window.setTimeout(game.switchPlayer(), 1000);
+            window.setTimeout(activePlayerUI, 3000);
+            break;
+          }
+        } else {
+          firstRoll = game.rollDice();
+          window.setTimeout(displayRoll, 1000, game.currentRoll);
+          window.setTimeout(updateFields, 1000);
+        }
+      }else {
+        break;
+      }
+    }
+
+  window.setTimeout(updateBank, 3000);
+}
+
 /// UI
 
 var activePlayerUI = function() {
@@ -159,7 +212,6 @@ $(document).ready(function(){
   });
 
   $("#startGame").click(function() {
-    debugger;
     game = new Game();
     player1.bank = 0;
     player2.bank = 0;
