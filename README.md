@@ -38,7 +38,9 @@ Source code available at _repository_
 
 ## Known Bugs
 
-__
+First "bank" click not working.
+
+turnTotal does not display on second roll on computer's turn.
 
 ## Support and contact details
 
