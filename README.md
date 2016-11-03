@@ -37,9 +37,8 @@ Specifications
 Source code available at _repository_
 
 ## Known Bugs
-Hard mode computer malfunctions when banks reach higher numbers (>62)
 
-turnTotal does not display on second roll on computer's turn.
+Turn total does not display on second roll on easy computer's turn.
 
 ## Support and contact details
 

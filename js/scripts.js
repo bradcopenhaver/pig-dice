@@ -104,59 +104,55 @@ var computer = function() {
 }
 
 var slowRoll = function(firstRoll) {
-  // debugger;
-  if (firstRoll === 1) {
-    if (player1.bank >= 71 || player2.bank >= 71) {
-      firstRoll = game.rollDice();
-      displayRoll(game.currentRoll);
-      updateFields();
-      if (game.turnTotal + player2.bank >= 100) {
-        return 1;
-      }
-    } else if (player1.bank >= 61 || player2.bank >= 61) {
-      firstRoll = game.rollDice();
-      displayRoll(game.currentRoll);
-      updateFields();
-      if (game.turnTotal >= 26) {
-        game.currentPlayer.addToBank(game.turnTotal);
-        game.switchPlayer();
-        activePlayerUI();
-        return 1;
-      }
-    } else if (player1.bank >= 51 || player2.bank >= 51) {
-        firstRoll = game.rollDice();
-        displayRoll(game.currentRoll);
-        updateFields();
-        if (game.turnTotal >= 23) {
-          game.currentPlayer.addToBank(game.turnTotal);
-          game.switchPlayer();
-          activePlayerUI();
-          return 1;
-        }
-    } else {
-      firstRoll = game.rollDice();
-      displayRoll(game.currentRoll);
-      updateFields();
-      if (game.turnTotal >= 20) {
-        game.currentPlayer.addToBank(game.turnTotal);
-        game.switchPlayer();
-        activePlayerUI();
-        return 1;
-      }
-    }
-  } else {
-    return 1;
-  }
+  debugger;
+
 }
 
 var superComputer = function() {
-  var firstRoll = game.rollDice();
-  displayRoll(game.currentRoll);
-  updateFields();
+  var firstRoll = 1;
     for (var i=0; player2.bank + game.turnTotal < 100; i++) {
       // debugger;
-      var check = slowRoll(firstRoll);
-      if (check === 1){
+      if (firstRoll === 1) {
+        if (player1.bank >= 71 || player2.bank >= 71) {
+          firstRoll = game.rollDice();
+          displayRoll(game.currentRoll);
+          updateFields();
+          if (game.turnTotal + player2.bank >= 100) {
+            game.switchPlayer();
+            break;
+          }
+        } else if (player1.bank >= 61 || player2.bank >= 61) {
+          firstRoll = game.rollDice();
+          displayRoll(game.currentRoll);
+          updateFields();
+          if (game.turnTotal >= 26) {
+            game.currentPlayer.addToBank(game.turnTotal);
+            game.switchPlayer();
+            activePlayerUI();
+            break;
+          }
+        } else if (player1.bank >= 51 || player2.bank >= 51) {
+            firstRoll = game.rollDice();
+            displayRoll(game.currentRoll);
+            updateFields();
+            if (game.turnTotal >= 23) {
+              game.currentPlayer.addToBank(game.turnTotal);
+              game.switchPlayer();
+              activePlayerUI();
+              break;
+            }
+        } else {
+          firstRoll = game.rollDice();
+          displayRoll(game.currentRoll);
+          updateFields();
+          if (game.turnTotal >= 20) {
+            game.currentPlayer.addToBank(game.turnTotal);
+            game.switchPlayer();
+            activePlayerUI();
+            break;
+          }
+        }
+      } else {
         break;
       }
     }
